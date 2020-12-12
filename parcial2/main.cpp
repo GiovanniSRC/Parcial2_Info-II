@@ -28,14 +28,12 @@ int main()
     canonDefensivo.setRango(0.025);
 
     //Angulos de lanzamiento establecidos
-    canonOfensivo.setAlpha(60*pi/180);
+    canonOfensivo.setAlpha(50*pi/180);
     canonDefensivo.setAlpha(40*pi/180);
 
     //Altura
     canonOfensivo.setH(30);
     canonDefensivo.setH(20);
-
-    srand(time(NULL));
 
     while(opc!=0){
 
@@ -47,9 +45,15 @@ int main()
         cin>>opc;
 
         if(opc==1){
-            float vOx, vOy;
+
+            float vOx, vOy, hO, hD, dD;
+            float xO, yO;
+            float euc;
 
             aO = canonOfensivo.getAlpha();
+            hO = canonOfensivo.getH();
+            hD = canonDefensivo.getH();
+            dD = canonDefensivo.getRango()*d;
 
             for(float vOf = 10; vOf <= 450; vOf+=10){
 
@@ -58,6 +62,20 @@ int main()
 
                 for(float t = 0; t <= 100; t+=0.1 ){
 
+                    xO = vOx*t;
+                    yO = hO + vOy*t - (0.5*g*t*t);
+
+                    euc=pow(d-xO,2)+pow(hD-yO,2);
+
+
+                    if(sqrt(euc) <= dD){
+                        cout<<endl;
+                        cout<<"t = "<<t<<endl;
+                        cout<<"Velocidad = "<<vOf<<endl;
+                        cout<<"Distancia = "<<xO<<endl;
+                        cout<<"Altura = "<<yO<<endl;
+                        cout<<endl;
+                    }
 
                 }
 
@@ -67,8 +85,44 @@ int main()
 
         }
 
+        if(opc == 2){
+
+            float vDx, vDy, hO, hD, dO;
+            float xD, yD;
+            float euc;
+
+            aD = canonDefensivo.getAlpha();
+            hO = canonOfensivo.getH();
+            hD = canonDefensivo.getH();
+            dO = canonOfensivo.getRango()*d;
+
+            for(float vDef = 10; vDef <= 450; vDef+=10){
+
+                vDx = vDef*cos(aO);
+                vDy = vDef*sin(aO);
+
+                for(float t = 0; t <= 100; t+=0.1 ){
+
+                    xD = vDx*t;
+                    yD = hD + vDy*t - (0.5*g*t*t);
+
+                    euc=pow(d-xD,2)+pow(yD-hO,2);
 
 
+                    if(sqrt(euc) <= dO){
+                        cout<<endl;
+                        cout<<"t = "<<t<<endl;
+                        cout<<"Velocidad = "<<vDef<<endl;
+                        cout<<"Distancia = "<<xD<<endl;
+                        cout<<"Altura = "<<yD<<endl;
+                        cout<<endl;
+                    }
+
+                }
+
+            }
+
+        }
 
     }
 
