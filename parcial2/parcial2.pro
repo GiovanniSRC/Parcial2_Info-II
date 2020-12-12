@@ -4,4 +4,8 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
+        canon.cpp \
         main.cpp
+
+HEADERS += \
+    canon.h
